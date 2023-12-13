@@ -6,11 +6,17 @@ bGround.log("Hello World");
 console.log("Hello World");
 
 var path = __dirname + "/views/index.html";
-app.get("/",function(req,res){
+app.get("/",(req,res) => {
   res.sendFile(path);
 });
 
 app.use('/public', express.static(__dirname + "/public"));
+
+app.get("/json",(req,res) => {
+    res.json(
+        {"message" : "Hello JSON"}
+    );
+});
 
 
 
