@@ -13,12 +13,12 @@ function anis(){
   return new Date().toString();
 }
   
-app.get('/now', (req,res,next)=>{
-req.time= anis();
-next();
-},(req,res)=>{
-  res.json({time: req.time});
-})
+app.get('/now', (req, res, next) => {
+  req.time = anis();
+  next(); 
+}, (req, res) => {
+  res.json({ time: req.time });
+});
 
 
 bGround.log("Hello World");
