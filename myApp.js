@@ -9,9 +9,12 @@ app.use((req,res,next)=>{
   next();
 })
 
+function anis(){
+  return new Date().toString();
+}
   
 app.get('/now', (req,res,next)=>{
-req.time= new Date().toString();
+req.time= anis();
 next();
 },(req,res)=>{
   res.json({time: req.time});
