@@ -13,11 +13,17 @@ function anis(){
   return new Date().toString();
 }
   
+var delayInMilliseconds = 1000; //1 second
+
 app.get('/now', (req, res, next) => {
-  req.time = anis();
-  next(); 
+     req.time = anis();
+     next()
 }, (req, res) => {
-  res.json({ time: req.time });
+setTimeout(function() {
+    res.json({
+      time: req.time
+    })
+}, [delayInMilliseconds]);
 });
 
 
