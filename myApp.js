@@ -2,6 +2,7 @@ let express = require('express');
 let app = express();
 const bGround = require('fcc-express-bground');
 require('dotenv').config();
+const bodyParser = require('body-parser')
 
 
 app.use((req,res,next)=>{
@@ -9,6 +10,12 @@ app.use((req,res,next)=>{
   next();
 })
 
+// app.get((req,res,next)=>{
+//   bodyParser.urlencoded({extended: false})
+//   next();
+// })
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
 // function anis(){
 //   return new Date().toString();
 // }
