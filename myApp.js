@@ -13,17 +13,15 @@ function anis(){
   return new Date().toString();
 }
   
-var delayInMilliseconds = 10000; //1 second
+const middleware = (req, res, next) => {
+  req.time = new Date().toString();
+  next();
+};
 
-app.get('/now', (req, res, next) => {
-     req.time = anis();
-     next()
-}, (req, res) => {
-setTimeout(function() {
-    res.json({
-      time: req.time
-    })
-}, [delayInMilliseconds]);
+app.get("/now", middleware, (req, res) => {
+  res.send({
+    time: req.time
+  });
 });
 
 
