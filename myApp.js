@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 
 var chainmware = (req, res, next) => {
   req.time = new Date().toString();
+  next();
 };
 
 var uno = (req, res, next) => {
@@ -29,8 +30,7 @@ var dos = (req, res) => {
     time: req.time,
   });
 };
-
-app.get("/now", uno, dos);
+app.get("/now", chainmware, dos);
 
 var send2 = (req, res) => {
   res.json({
