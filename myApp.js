@@ -1,58 +1,62 @@
-let express = require('express');
+let express = require("express");
 let app = express();
-const bGround = require('fcc-express-bground');
-require('dotenv').config();
-const bodyParser = require('body-parser')
+const bGround = require("fcc-express-bground");
+require("dotenv").config();
+const bodyParser = require("body-parser");
 
-
-app.use((req,res,next)=>{
-  console.log(req.method +" " +req.path+ " - " + req.ip);
+app.use((req, res, next) => {
+  console.log(req.method + " " + req.path + " - " + req.ip);
   next();
-})
+});
 
 // app.get((req,res,next)=>{
 //   bodyParser.urlencoded({extended: false})
 //   next();
 // })
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// function anis(){
-//   return new Date().toString();
-// }
-  
-// const middleware = (req, res, next) => {
-//   req.time = new Date().toString();
-//   next();
-// };
 
-// app.get("/now", middleware, (req, res) => {
-//   res.send({
-//     time: req.time
-//   });
-// });
+var chainmware = (req, res, next) => {
+  req.time = new Date().toString();
+};
 
-app.get("/:word/echo",(req,res)=>{
-  res.json({echo:req.params.word});
+var uno = (req, res, next) => {
+  req.time = new Date().toString();
+  next();
+};
+var dos = (req, res) => {
+  res.send({
+    time: req.time,
+  });
+};
+
+app.get("/now", uno, dos);
+
+var send2 = (req, res) => {
+  res.json({
+    echo: req.params.word,
+  });
+};
+
+app.get("/:word/echo", (req, res) => {
+  res.json({ echo: req.params.word });
 });
-app.get("/name",(req,res)=>{
-  res.json({name : req.query.first + " " + req.query.last});
-})
-app.post("/name",(req,res)=>{
-  res.json({name : req.body.first + " " + req.body.last});
-})
-
+app.get("/name", (req, res) => {
+  res.json({ name: req.query.first + " " + req.query.last });
+});
+app.post("/name", (req, res) => {
+  res.json({ name: req.body.first + " " + req.body.last });
+});
 
 bGround.log("Hello World");
 console.log("Hello World");
 
 var path = __dirname + "/views/index.html";
-app.get("/",(req,res) => {
+app.get("/", (req, res) => {
   res.sendFile(path);
 });
 
-app.use('/public', express.static(__dirname + "/public"));
-
-
+app.use("/public", express.static(__dirname + "/public"));
 
 // app.get("/json",(req,res) => {
 //   if(process.env.MESSAGE_STYLE === "uppercase")
@@ -66,50 +70,12 @@ app.use('/public', express.static(__dirname + "/public"));
 //   }
 // });
 
-app.get("/json",(req,res) => {
-  var jsonResponse ={ "message":"Hello json" };
-  if(process.env.MESSAGE_STYLE === "uppercase")
-  {
+app.get("/json", (req, res) => {
+  var jsonResponse = { message: "Hello json" };
+  if (process.env.MESSAGE_STYLE === "uppercase") {
     jsonResponse.message = jsonResponse.message.toUpperCase();
   }
   res.json(jsonResponse);
-  });
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- module.exports = app;
+module.exports = app;
